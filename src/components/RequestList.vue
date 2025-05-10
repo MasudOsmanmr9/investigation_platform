@@ -21,7 +21,7 @@
             <p class="card-text">{{ sliceLetterFilter(request.description) }}</p>
             <div class="d-flex justify-content-around">
               <router-link :to="`/investigator/request-detail/${request._id}`" class="btn btn-primary">View Details</router-link>
-              <button @click="requestAccept(request._id)" class="btn btn-success">Accept</button>
+              <button v-if="request.status === 'pending'" @click="requestAccept(request._id)" class="btn btn-success">Accept</button>
             </div>
           </div>
         </div>
@@ -53,6 +53,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['investigatorRequestAccept']),
     async fetchRequests() {
       try {
         this.requests = this.getRequests.requests;
@@ -65,13 +66,15 @@ export default {
       console.log('valueeeeeeeeeee',value)
       if (!value) return ''
       value = value.toString()
-      return  value.slice(1,50) + '...'
+      return  value.slice(0,50) + '...'
     },
     handlePageChange(page) {
       this.currentPage = page;
       this.fetchRequests();
     },
-    requestAccept(requestId) {
+    async requestAccept(requestId) {
+      await this.investigatorRequestAccept(requestId)
+      this.$emit('page-updated'); 
       console.log('Request accepted:', requestId);
     },
   },

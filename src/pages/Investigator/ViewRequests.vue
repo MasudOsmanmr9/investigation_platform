@@ -1,13 +1,13 @@
 <template>
-  <div class="view-requests">
+  <div v-if="getRequests != null" class="view-requests">
     <h1>View Requests</h1>
     <div>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link" :class="{ active: activeTab === 'pending' }" @click="setActiveTab('pending')">Pending</a>
+          <a class="nav-link" :class="{ active: activeTab === 'pending' }" @click="setActiveTab('pending')">brwose</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" :class="{ active: activeTab === 'in-progress' }" @click="setActiveTab('inProgress')">In Progress</a>
+          <a class="nav-link" :class="{ active: activeTab === 'in-progress' }" @click="setActiveTab('in-progress')">In Progress</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" :class="{ active: activeTab === 'completed' }" @click="setActiveTab('completed')">Completed</a>
@@ -16,11 +16,12 @@
       <RequestList
         :requests="getRequests"
         @viewRequest="viewRequest"
+        @pageUpdated="pageUpdateForRequests"
       />
       <Pagination
         :currentPage="getRequests.currentPage"
         :totalPages="getRequests.totalPages"
-        @pageChange="changePage"
+        @pageChanged="changePage"
       />
     </div>
   </div>
@@ -62,35 +63,57 @@ export default {
     // },
   },
   methods: {
-    ...mapActions(['fetchRequests']),
+    ...mapActions(['fetchInvestigatorMyRequests','browseRequests']),
     async fetchMyRequests() {
       try {
-        const response = await this.fetchRequests({
+        console.log('active tab',this.activeTab)
+        if(this.activeTab === 'pending') {
+          const response = await this.browseRequests({
+            page: this.currentPage,
+            limit:this.limit
+          });
+        }else {
+          console.log('active tabbbbbbbbbb',this.activeTab)
+          const response = await this.fetchInvestigatorMyRequests({
           status: this.activeTab,
           page: this.currentPage,
           limit:this.limit
         });
-        this.totalPages = response.totalPages;
+        }
       } catch (error) {
         console.error('Error fetching requests:', error);
       }
     },
     async setActiveTab(tab) {
+      console.log('active tab',tab)
       this.activeTab = tab;
-      this.currentPage = 1; 
-      await this.fetchMyRequests();// Reset to first page on tab change
+      this.currentPage = 1;
+      // if(tab === 'pending') {
+      //   await this.browseRequests();
+      // } else if (tab === 'in-progress' || tab === 'completed') {
+      //   await this.fetchMyRequests();
+      // }
+      await this.fetchMyRequests();
+// Reset to first page on tab change
     },
     async changePage(page) {
       this.currentPage = page;
+      console.log('page changingggggggggggggggggggg',page)
+      await this.fetchMyRequests();
+    },
+    async pageUpdateForRequests() {
       await this.fetchMyRequests();
     },
     viewRequest(requestId) {
       this.$router.push({ name: 'RequestDetailView', params: { id: requestId } });
     },
   },
-  mounted() {
+  async mounted() {
     // Fetch requests from the store or API
-    this.$store.dispatch('fetchRequests');
+    await this.browseRequests({
+            page: this.currentPage,
+            limit:this.limit
+          });
   },
 };
 </script>

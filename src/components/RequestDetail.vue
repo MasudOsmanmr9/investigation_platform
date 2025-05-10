@@ -36,7 +36,14 @@
               <h5><strong>contact details:</strong> {{ request.assignedInvestigatorId.contactDetails }}</h5>
             </div>
             <h4>Actions</h4>
-            <router-link :to="{ name: 'SubmitReport', params: { requestId: request.id } }">Submit Report</router-link>
+            <!-- <div v-if="request.status === 'in-progress'"> -->
+            <div>
+              <router-link :to="{ name: 'SubmitReport', params: { requestId: request.id } }">Submit Report</router-link>
+            </div>
+            <div v-if="request.status === 'completed'">
+              <button v-if="request.report.file" class="btn btn-success" @click="handleDownloadReport">Download Report</button>
+        
+            </div>
           </div>
           <div v-else>
             <h4 >No investigator assigned yet, wanna accept it?</h4>
@@ -52,7 +59,8 @@
 
 <script>
 import { mapState,mapActions } from 'vuex';
-import { downloadFile } from '../utils/api';
+import { downloadReport } from '../utils/api';
+// import { downloadReport } from '../../utils/api';
 
 export default {
   props: {
@@ -90,8 +98,12 @@ export default {
       const options = { year: 'numeric', month: 'short', day: '2-digit' }; // Format: May 07 2025
       return date.toLocaleDateString('en-US', options);
     },
-    downloadReport() {
-      downloadFile(this.request.reportFile);
+    async handleDownloadReport() {
+      try {
+        await downloadReport(this.request._id); // Pass the request ID to downloadReport
+      } catch (error) {
+        console.error('Error downloading report:', error);
+      }
     },
     requestAccept(requestId) {
       console.log('Request accepted:', requestId);

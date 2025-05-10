@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav v-if="isAuthenticated" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Investigation Platform</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -23,9 +23,9 @@
             <p class="active-roll">Active Role: {{ user.activeRole }}</p>
             <button class="btn btn-link nav-link" @click="switchRole">Switch Role</button>
           </div> -->
-          <p class="active-roll my-0">Active Role: {{ user.activeRole }}</p>
+          <p class="active-roll my-0 mx-2"><strong>Active Role: {{ user.activeRole }}</strong></p>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+            <input class="form-check-input" @change="switchUserRole" type="checkbox" id="flexSwitchCheckChecked" checked>
             <label class="form-check-label" for="flexSwitchCheckChecked">{{ user.activeRole == 'requester' ? 'Switch to Investigator' : 'Switch to Requester' }}</label>
           </div>
         </li>
@@ -41,7 +41,7 @@
 import { mapState,mapActions } from 'vuex';
 export default {
   computed: {
-    ...mapState(['user','activeRole']),
+    ...mapState(['user','activeRole','isAuthenticated']),
     // user() {
     //   return this.$store.state.user; // Safely access the user object
     // },
@@ -54,13 +54,14 @@ export default {
   },
   methods: {
     ...mapActions(['switchRole']),
-    switchRole() {
-      this.$store.dispatch('switchRole');
-    },
+    // switchRole() {
+    //   this.$store.dispatch('switchRole');
+    // },
     async switchUserRole(role) {
-      // this.$store.commit('setActiveRole', role);
-      
-      await this.switchRole(role);
+
+      let propsedrole = this.activeRole === 'requester' ? 'investigator' : 'requester';
+      await this.switchRole(propsedrole);
+      this.$router.push('/dashboard');
     },
     logout() {
       this.$store.dispatch('logout');

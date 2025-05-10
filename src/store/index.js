@@ -7,7 +7,10 @@ import {
   fetchMyRequests,
   fetchRequestDetails,
   updateUserProfile,
-  switchUserRole
+  switchUserRole,
+  browseRequests,
+  investigatorMyRequests,
+  investigatorAcceptRequest
 } from '@/utils/api';
 import createPersistedState from "vuex-persistedstate";
 
@@ -24,7 +27,7 @@ export default createStore({
     isAuthenticated: false,
     token: null,
     activeRole: null,
-    requests: {totalRequests: 0, totalPages: 0, currentPage: 1, requests: []},
+    requests: null,
   },
   mutations: {
     SET_USER(state, user) {
@@ -64,6 +67,32 @@ export default createStore({
       try {
         let { page, limit, status} = payload;
         const response = await fetchMyRequests({ status, page, limit });
+        console.log('Fetched Requests store updatedddd:', response.data);
+        commit('SET_REQUESTS', response.data);
+        return response.data; // Return the data for the component
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+        throw error;
+      }
+    },
+    async browseRequests({ commit }, payload = { page : 1, limit : 2}) {
+      try {
+        let { page, limit} = payload;
+        const response = await browseRequests({ page, limit });
+        console.log('Fetched Requests:', response.data);
+        commit('SET_REQUESTS', response.data);
+        return response.data; // Return the data for the component
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+        throw error;
+      }
+    },
+
+    async fetchInvestigatorMyRequests({ commit }, payload = { page : 1, limit : 2, status : 'in-progress' }) {
+      try {
+        let {status ,page, limit} = payload;
+        console.log('Fetching investigator requests with status:', status);
+        const response = await investigatorMyRequests({ status, page, limit });
         console.log('Fetched Requests:', response.data);
         commit('SET_REQUESTS', response.data);
         return response.data; // Return the data for the component
@@ -86,6 +115,17 @@ export default createStore({
         return response.data;
       } catch (error) {
         console.error('Error fetching request:', error);
+        throw error;
+      }
+    },
+
+    async investigatorRequestAccept({ commit }, requestId) {
+      try {
+        const response = await investigatorAcceptRequest(requestId);
+        console.log('Accepted Request:', response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Error accepting request:', error);
         throw error;
       }
     },
@@ -145,6 +185,10 @@ export default createStore({
 
     logout({ commit }) {
       commit('SET_USER', null);
+      commit('SET_TOKEN', null);
+      commit('SET_ACTIVE_ROLE', null);
+      commit('SET_REQUESTS', null);
+      localStorage.removeItem('token');
     },
 
     async updateProfile({ commit }, profileData) {

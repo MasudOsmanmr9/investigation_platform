@@ -8,6 +8,14 @@ const apiClient = axios.create({
     },
 });
 
+const apiClientUpload = axios.create({
+    // baseURL: process.env.VUE_APP_API_URL,
+    baseURL: 'http://localhost:3000/api', // Set your API base URL here
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
+});
+
 // Interceptor to add token to headers
 apiClient.interceptors.request.use(config => {
     const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
@@ -19,6 +27,22 @@ apiClient.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
+// Interceptor to add token to headers
+apiClientUpload.interceptors.request.use(config => {
+    const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+    if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
+
+
+export const uploadFileApi = async (formData,requestId) => {
+    let response = await apiClientUpload.post(`/investigators/reports/${requestId}`, formData);
+    return response;
+};
 // Function to sign up a new user
 export const signUpApi = async (userData) => {
     let response = await apiClient.post('/auth/signup', userData);
@@ -63,6 +87,19 @@ export const fetchMyRequests = ({status='pending',page=1,limit=10}) => {
     return apiClient.get(`/requests/me?status=${status}&page=${page}&limit=${limit}`);
 };
 
+export const investigatorMyRequests = ({status='pending',page=1,limit=10}) => {
+    console.log('Fetching investigators requests apijs limit', limit);
+    return apiClient.get(`/investigators/my-requests?status=${status}&page=${page}&limit=${limit}`);
+};
+
+export const browseRequests = ({status='pending',page=1,limit=10}) => {
+    console.log('Fetching requests apijs limit', limit);
+    return apiClient.get(`investigators/requests?page=${page}&limit=${limit}`);
+};
+
+export const investigatorAcceptRequest = (requestId) => {
+    return apiClient.post(`/investigators/requests/${requestId}/accept`);
+};
 // Function to fetch available requests for investigators
 export const fetchAvailableRequests = () => {
     return apiClient.get('/requests/available');

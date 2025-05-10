@@ -1,8 +1,8 @@
 <template>
-  <div class="request-detail-view">
+  <div v-if="request" class="request-detail-view">
     <h2>investigatorRequest Detail</h2>
     <RequestDetail :requestData="request" v-if="request" />
-    <div v-if="role === 'investigator'">
+    <div v-if="role === 'investigator' && request.status === 'in-progress'">
       <h3>Investigator Report</h3>
       <form @submit.prevent="submitReport">
         <div class="form-group">

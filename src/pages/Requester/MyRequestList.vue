@@ -1,5 +1,5 @@
 <template>
-  <div class="my-request-list">
+  <div v-if="getRequests != null" class="my-request-list">
     <h1>My Requests</h1>
     <div>
       <label for="filter">Filter by Status:</label>
@@ -10,8 +10,8 @@
         <option value="completed">Completed</option>
       </select>
     </div>
-    <RequestList :requests="getRequests" @viewRequest="viewRequest" />
-    <Pagination :currentPage="getRequests.currentPage" :totalPages="getRequests.totalPages" @pageChanged="pageChange" />
+    <RequestList :requests="getRequests" @viewRequest="viewRequest"  />
+    <Pagination :currentPage="getRequests.currentPage" :totalPages="getRequests.totalPages" />
   </div>
 </template>
 

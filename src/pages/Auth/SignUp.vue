@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-container">
+  <div class="signup-container mt-5">
     <h2>Sign Up</h2>
     <form class="d-flex flex-column g-3" @submit.prevent="handleSignUp">
       <div class="col-md-12 d-flex flex-column align-items-start">

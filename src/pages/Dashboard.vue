@@ -38,8 +38,8 @@ export default {
       return this.activeRole;
     },
     isBothRoles() {
-      console.log('isBothRoles', this.user.role)
-      return this.user.role === 'both' 
+      // console.log('isBothRoles', this.user.role)
+      return this.user && this.user.role === 'both' 
       //return true
       //&& this.user.roles.includes('investigator');
     },

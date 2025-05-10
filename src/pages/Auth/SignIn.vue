@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-container">
+  <div class="auth-container  mt-5">
     <h2>Sign In</h2>
     <!-- <form class="d-flex flex-column g-3" @submit.prevent="handleSignIn">
       <div class="form-group">
@@ -18,7 +18,7 @@
         <label for="email" class="form-label">Email</label>
         <input type="email" v-model="email" class="form-control" id="email" required>
       </div>
-      <div class="col-md-12 d-flex flex-column align-items-start">
+      <div class="col-md-12 d-flex flex-column align-items-start mt-2">
         <label for="password" class="form-label">Password</label>
         <input type="password" v-model="password" class="form-control" id="password" required>
       </div>
