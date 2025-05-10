@@ -97,18 +97,23 @@ const router = createRouter({
 });
 
 // Route guard for authentication and role-based access
-// router.beforeEach((to, from, next) => {
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   const userRole = store.state.user?.role; // Assuming user role is stored in Vuex
-//   const roleRequired = to.meta.role;
-
-//   if (requiresAuth && !store.state.isAuthenticated) {
-//     next({ name: 'SignIn' });
-//   } else if (roleRequired && userRole !== roleRequired) {
-//     next({ name: 'Dashboard' }); // Redirect to dashboard if role doesn't match
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const userRole = store.state.user?.role;
+  const userActivRole = store.state.activeRole; // Assuming user role is stored in Vuex
+  const roleRequired = to.meta.role;
+console.log('User role:', userRole,roleRequired);
+  console.log('to :::', to);
+  if((to.name === 'SignIn' || to.name === 'SignUp') && store.state.isAuthenticated) {
+    next({ name: 'Dashboard' });
+  }
+  if (requiresAuth && !store.state.isAuthenticated) {
+    next({ name: 'SignIn' });
+  } else if (roleRequired && userActivRole !== roleRequired) {
+    next({ name: 'Dashboard' }); // Redirect to dashboard if role doesn't match
+  } else {
+    next();
+  }
+});
 
 export default router;

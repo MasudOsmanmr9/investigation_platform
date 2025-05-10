@@ -4,7 +4,7 @@
     <RequestDetail :requestData="request" v-if="request" />
     <div v-if="role === 'investigator' && request.status === 'in-progress'">
       <h3>Investigator Report</h3>
-      <form @submit.prevent="submitReport">
+      <!-- <form @submit.prevent="submitReport">
         <div class="form-group">
           <label for="reportData">Report Data</label>
           <textarea id="reportData" v-model="reportData" class="form-control" required></textarea>
@@ -14,7 +14,7 @@
           <input type="file" @change="handleFileUpload" class="form-control" />
         </div>
         <button type="submit" class="btn btn-primary">Submit Report</button>
-      </form>
+      </form> -->
     </div>
     <div v-if="role === 'requester' && request.report">
       <h3>Investigator's Report</h3>
@@ -64,19 +64,19 @@ export default {
     handleFileUpload(event) {
       this.reportFile = event.target.files[0];
     },
-    async submitReport() {
-      const formData = new FormData();
-      formData.append('reportData', this.reportData);
-      if (this.reportFile) {
-        formData.append('reportFile', this.reportFile);
-      }
-      try {
-        await axios.post(`/api/requests/${this.request.id}/submit-report`, formData);
-        this.$router.push({ name: 'ViewRequests' });
-      } catch (error) {
-        console.error('Error submitting report:', error);
-      }
-    },
+    // async submitReport() {
+    //   const formData = new FormData();
+    //   formData.append('reportData', this.reportData);
+    //   if (this.reportFile) {
+    //     formData.append('reportFile', this.reportFile);
+    //   }
+    //   try {
+    //     await axios.post(`/api/requests/${this.request.id}/submit-report`, formData);
+    //     this.$router.push({ name: 'ViewRequests' });
+    //   } catch (error) {
+    //     console.error('Error submitting report:', error);
+    //   }
+    // },
   },
 };
 </script>

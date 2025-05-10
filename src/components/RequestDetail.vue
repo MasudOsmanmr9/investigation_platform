@@ -31,24 +31,27 @@
         <div v-if="isInvestigator">
           <div v-if="request.assignedInvestigatorId">
             <h4>Investigator</h4>
-            <div  class="requester d-flex flex-column align-items-start">
+            <div  class="investigator d-flex flex-column align-items-start">
               <h4><strong>Investigator:</strong> {{ request.assignedInvestigatorId.name }}</h4>
               <h5><strong>contact details:</strong> {{ request.assignedInvestigatorId.contactDetails }}</h5>
             </div>
             <h4>Actions</h4>
             <!-- <div v-if="request.status === 'in-progress'"> -->
-            <div>
+            <div v-if="request.status === 'in-progress'">
               <router-link :to="{ name: 'SubmitReport', params: { requestId: request.id } }">Submit Report</router-link>
-            </div>
-            <div v-if="request.status === 'completed'">
-              <button v-if="request.report.file" class="btn btn-success" @click="handleDownloadReport">Download Report</button>
-        
             </div>
           </div>
           <div v-else>
             <h4 >No investigator assigned yet, wanna accept it?</h4>
             <button @click="requestAccept(request._id)" class="btn btn-success">Accept</button>
-        </div>
+          </div>
+          <div>
+
+            <div v-if="request.report">
+              <p><strong>Report:</strong> {{ request.report.reportData }}</p>
+              <button v-if="request.report.file && request.status === 'completed'" class="btn btn-success" @click="handleDownloadReport">Download Report</button>
+            </div>
+          </div>
         </div>
         <div v-else>
           <p>Loading request details...</p>
@@ -84,11 +87,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchSingleRequest']),
+    ...mapActions(['fetchSingleRequest','investigatorRequestAccept']),
     async fetchRequestDetails() {
       try {
-        // const response = await this.fetchSingleRequest(this.requestId);
-        // this.request = response.data;
+        const response = await this.fetchSingleRequest(this.request._id);
+        this.request = response.request;
+        // console.log('fetching updated Request details:', this.request);
       } catch (error) {
         console.error('Error fetching request details:', error);
       }
@@ -105,8 +109,10 @@ export default {
         console.error('Error downloading report:', error);
       }
     },
-    requestAccept(requestId) {
+    async requestAccept(requestId) {
       console.log('Request accepted:', requestId);
+      await this.investigatorRequestAccept(requestId)
+      await this.fetchRequestDetails();
     },
   },
   mounted() {
