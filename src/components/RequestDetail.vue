@@ -116,13 +116,11 @@ export default {
       }
     },
     async requestAccept(requestId) {
-      console.log('Request accepted:', requestId);
       await this.investigatorRequestAccept(requestId)
       await this.fetchRequestDetails();
     },
   },
   mounted() {
-    console.log('child request detail', this.requestData);
     //this.fetchRequestDetails();
   }
 };

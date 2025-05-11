@@ -55,7 +55,6 @@ export default {
     async fetchRequestDetails() {
       try {
         const response = await this.fetchSingleRequest(this.requestId);
-        console.log(' investigator Request Detail:', response.request);
         this.request = response.request;
       } catch (error) {
         console.error('Error fetching request detail:', error);

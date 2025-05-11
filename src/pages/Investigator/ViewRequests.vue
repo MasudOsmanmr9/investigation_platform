@@ -49,30 +49,17 @@ export default {
     // ...mapState(['requests']),
     ...mapState(['user']),
     ...mapGetters(['getRequests']),
-    // filteredRequests() {
-    //   console.log('filteredRequests from view rewquest',this.requests)
-    //   if(this.requests === 'all') {
-    //     return [];
-    //   }
-    //   // return this.requests.filter(request => request.status === this.activeTab);
-    //   return this.requests;
-    // },
-    // totalPages() {
-    //   return Math.ceil(this.filteredRequests.length / 10); // Assuming 10 requests per page
-    // },
   },
   methods: {
     ...mapActions(['fetchInvestigatorMyRequests','browseRequests']),
     async fetchMyRequests() {
       try {
-        console.log('active tab',this.activeTab)
         if(this.activeTab === 'pending') {
           const response = await this.browseRequests({
             page: this.currentPage,
             limit:this.limit
           });
         }else {
-          console.log('active tabbbbbbbbbb',this.activeTab)
           const response = await this.fetchInvestigatorMyRequests({
           status: this.activeTab,
           page: this.currentPage,
@@ -84,7 +71,6 @@ export default {
       }
     },
     async setActiveTab(tab) {
-      console.log('active tab',tab)
       this.activeTab = tab;
       this.currentPage = 1;
       // if(tab === 'pending') {
@@ -97,7 +83,6 @@ export default {
     },
     async changePage(page) {
       this.currentPage = page;
-      console.log('page changingggggggggggggggggggg',page)
       await this.fetchMyRequests();
     },
     async pageUpdateForRequests() {

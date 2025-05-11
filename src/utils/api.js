@@ -88,7 +88,6 @@ export const uploadFileApi = async (formData,requestId) => {
 // Function to sign up a new user
 export const signUpApi = async (userData) => {
     let response = await apiClient.post('/auth/signup', userData);
-    console.log('Response from signUpApi:', response);
     return response;
 };
 
@@ -113,24 +112,20 @@ export const updateUserProfile = (profileData) => {
 
 // Function to create a new investigation request
 export const createRequest = async (requestData) => {
-    console.log('Request Data acccesss:', requestData);
     let response = await apiClient.post('/requests', requestData);
     return response;
 };
 
 // Function to fetch requester's requests
 export const fetchMyRequests = ({status='pending',page=1,limit=10}) => {
-    console.log('Fetching requests apijs limit', limit);
     return apiClient.get(`/requests/me?status=${status}&page=${page}&limit=${limit}`);
 };
 
 export const investigatorMyRequests = ({status='pending',page=1,limit=10}) => {
-    console.log('Fetching investigators requests apijs limit', limit);
     return apiClient.get(`/investigators/my-requests?status=${status}&page=${page}&limit=${limit}`);
 };
 
 export const browseRequests = ({status='pending',page=1,limit=10}) => {
-    console.log('Fetching requests apijs limit', limit);
     return apiClient.get(`investigators/requests?page=${page}&limit=${limit}`);
 };
 

@@ -33,13 +33,13 @@ export default {
   },
   methods: {
     goToPage(page) {
-      console.log('Page changed to:', page);
+      // console.log('Page changed to:', page);
       if (page < 1 || page > this.totalPages) return;
       this.$emit('page-changed', page);
     }
   },
   created() {
-    console.log('pagination Current page:', this.currentPage);
+    // console.log('pagination Current page:', this.currentPage);
   }
 }
 </script>

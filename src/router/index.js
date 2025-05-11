@@ -117,8 +117,6 @@ router.beforeEach((to, from, next) => {
   const userRole = store.state.user?.role;
   const userActivRole = store.state.activeRole; // Assuming user role is stored in Vuex
   const roleRequired = to.meta.role;
-console.log('User role:', userRole,roleRequired);
-  console.log('to :::', to);
 
   if(store.state.isAuthenticated && roleRequired === 'both') {
     next();

@@ -63,7 +63,6 @@ export default {
       }
     },
     sliceLetterFilter (value) {
-      console.log('valueeeeeeeeeee',value)
       if (!value) return ''
       value = value.toString()
       return  value.slice(0,50) + '...'
@@ -74,8 +73,7 @@ export default {
     },
     async requestAccept(requestId) {
       await this.investigatorRequestAccept(requestId)
-      this.$emit('page-updated'); 
-      console.log('Request accepted:', requestId);
+      this.$emit('page-updated');
     },
   },
   mounted() {
