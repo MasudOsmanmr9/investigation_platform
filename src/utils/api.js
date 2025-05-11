@@ -175,6 +175,10 @@ export const rateInvestigator = (investigatorId, ratingData) => {
     return apiClient.post(`/investigators/${investigatorId}/rate`, ratingData);
 };
 
+export const fetchDashboardDataApi = (investigatorId) => {
+    return apiClient.get(`/users/dashboard`);
+};
+
 export const downloadReport = async (requestId) => {
     try {
         const response = await apiClient.get(`/reports/download/${requestId}`, {

@@ -20,12 +20,7 @@
       </div>
       <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
-    <div class="ratings">
-      <h2>Ratings and Reviews</h2>
-      <div v-for="review in reviews" :key="review.id" class="review">
-        <p><strong>{{ review.reviewerName }}:</strong> {{ review.comment }} (Rating: {{ review.rating }})</p>
-      </div>
-    </div>
+ 
   </div>
 </template>
 
