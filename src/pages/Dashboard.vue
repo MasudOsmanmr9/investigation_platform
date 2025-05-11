@@ -5,31 +5,32 @@
     <!-- Role-Based Counts -->
     <div class="row">
       <!-- Investigator Counts -->
-      <div v-if="userRole === 'investigator' || userRole === 'both'" class="col-md-3 mb-4">
-        <div class="card shadow text-center">
-          <div class="card-body">
-            <h5 class="card-title">Available Requests</h5>
-            <p class="card-text">{{ investigatorCounts.available }}</p>
+      <div v-if="activeRole == 'investigator' && investigatorCounts" class="investigator d-flex">
+        <div class="col-md-3 mb-4">
+          <div class="card shadow text-center">
+            <div class="card-body">
+              <h5 class="card-title">Available Requests</h5>
+              <p class="card-text">{{ investigatorCounts.available }}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="userRole === 'investigator' || userRole === 'both'" class="col-md-3 mb-4">
-        <div class="card shadow text-center">
-          <div class="card-body">
-            <h5 class="card-title">In Progress</h5>
-            <p class="card-text">{{ investigatorCounts.inProgress }}</p>
+        <div class="col-md-3 mb-4">
+          <div class="card shadow text-center">
+            <div class="card-body">
+              <h5 class="card-title">In Progress</h5>
+              <p class="card-text">{{ investigatorCounts.inProgress }}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="userRole === 'investigator' || userRole === 'both'" class="col-md-3 mb-4">
-        <div class="card shadow text-center">
-          <div class="card-body">
-            <h5 class="card-title">Completed</h5>
-            <p class="card-text">{{ investigatorCounts.completed }}</p>
+        <div class="col-md-3 mb-4">
+          <div class="card shadow text-center">
+            <div class="card-body">
+              <h5 class="card-title">Completed</h5>
+              <p class="card-text">{{ investigatorCounts.completed }}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="userRole === 'investigator' || userRole === 'both'" class="col-md-3 mb-4">
+      <div  class="col-md-3 mb-4">
         <div class="card shadow text-center">
           <div class="card-body">
             <h5 class="card-title">Reviews</h5>
@@ -37,9 +38,11 @@
           </div>
         </div>
       </div>
+      </div>
 
       <!-- Requester Counts -->
-      <div v-if="userRole === 'requester' || userRole === 'both'" class="col-md-3 mb-4">
+      <!-- <div v-if="activeRole === 'requester'" class="requester d-flex">
+        <div v-if="userRole === 'requester' || userRole === 'both'" class="col-md-3 mb-4">
         <div class="card shadow text-center">
           <div class="card-body">
             <h5 class="card-title">Pending</h5>
@@ -62,6 +65,33 @@
             <p class="card-text">{{ requesterCounts.completed }}</p>
           </div>
         </div>
+      </div>
+      </div> -->
+      <div v-if="activeRole === 'requester' && requesterCounts" class="requester d-flex">
+      <div  class="col-md-3 mb-4">
+        <div class="card shadow text-center">
+          <div class="card-body">
+            <h5 class="card-title">Pending</h5>
+            <p class="card-text">{{ requesterCounts.pending }}</p>
+          </div>
+        </div>
+      </div>
+      <div  class="col-md-3 mb-4">
+        <div class="card shadow text-center">
+          <div class="card-body">
+            <h5 class="card-title">In Progress</h5>
+            <p class="card-text">{{ requesterCounts.inProgress }}</p>
+          </div>
+        </div>
+      </div>
+      <div  class="col-md-3 mb-4">
+        <div class="card shadow text-center">
+          <div class="card-body">
+            <h5 class="card-title">Completed</h5>
+            <p class="card-text">{{ requesterCounts.completed }}</p>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
 

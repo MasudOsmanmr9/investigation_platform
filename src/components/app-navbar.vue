@@ -8,7 +8,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarTogglerDemo02">
       <ul class="navbar-nav">
         <li class="nav-item">
           <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
