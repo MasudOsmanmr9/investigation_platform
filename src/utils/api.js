@@ -111,11 +111,6 @@ export const updateUserProfile = (profileData) => {
     return apiClient.put('/users/update-profile', profileData);
 };
 
-// Function to fetch reviews for a user (e.g., investigator)
-export const fetchUserReviews = (userId) => {
-    return apiClient.get(`/users/${userId}/reviews`);
-};
-
 // Function to create a new investigation request
 export const createRequest = async (requestData) => {
     console.log('Request Data acccesss:', requestData);
@@ -157,6 +152,24 @@ export const submitReport = (requestId, reportData) => {
     return apiClient.post(`/requests/${requestId}/report`, reportData);
 };
 
+// Function to fetch a user's profile by ID
+export const getUserProfileApi = (userId) => {
+    return apiClient.get(`/users/investigator/${userId}`);
+};
+// Create a new review
+export const createReviewApi = (reviewData) => {
+    return apiClient.post('/reviews', reviewData);
+};
+
+// Get reviews for an investigator with pagination
+export const getInvestigatorReviewsApi = (investigatorId, page = 1, limit = 5) => {
+    return apiClient.get(`/reviews/investigator/${investigatorId}?page=${page}&limit=${limit}`);
+};
+
+// Function to fetch reviews for a user (e.g., investigator)
+export const fetchUserReviews = (userId) => {
+    return apiClient.get(`/users/${userId}/reviews`);
+};
 // Function to rate and review an investigator
 export const rateInvestigator = (investigatorId, ratingData) => {
     return apiClient.post(`/investigators/${investigatorId}/rate`, ratingData);

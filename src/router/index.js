@@ -14,6 +14,7 @@ import RequestDetailViewInvestigator from '../pages/Investigator/RequestDetailVi
 import SubmitReport from '../pages/Investigator/SubmitReport.vue';
 import UserProfile from '../pages/UserProfile.vue';
 import NotFound from '../pages/NotFound.vue';
+import InvestigatorProfile from '../pages/InvestigatorProfile.vue';
 const routes = [
   {
     path: '/',
@@ -58,6 +59,13 @@ const routes = [
     name: 'RequestDetailViewRequester',
     component: RequestDetailViewRequester,
     meta: { requiresAuth: true, role: 'requester' }
+  },
+  {
+    path: '/investigators/user/profile/:id',
+    name: 'InvestigatorUserProfile',
+    // component: () => import('@/pages/InvestigatorProfile.vue'),
+    component: InvestigatorProfile,
+    meta: { requiresAuth: true, role: 'requester' }, // Only requesters can access this
   },
   {
     path: '/investigator/view-requests',

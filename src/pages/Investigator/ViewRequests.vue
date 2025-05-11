@@ -1,6 +1,5 @@
 <template>
   <div v-if="getRequests != null" class="view-requests">
-    <h1>View Requests</h1>
     <div>
       <ul class="nav nav-tabs">
         <li class="nav-item">

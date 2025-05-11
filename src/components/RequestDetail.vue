@@ -16,7 +16,7 @@
           <div v-if="request.assignedInvestigatorId">
             <h4>Investigator</h4>
             <div  class="requester d-flex flex-column align-items-start">
-              <h4><strong>Investigator:</strong> {{ request.assignedInvestigatorId.name }}</h4>
+              <h4><strong>Investigator:</strong> <router-link :to="{ name: 'InvestigatorUserProfile', params: { id: request.assignedInvestigatorId._id } }">{{ request.assignedInvestigatorId.name }}</router-link></h4>
               <h5><strong>contact details:</strong> {{ request.assignedInvestigatorId.contactDetails }}</h5>
             </div>
           <!-- <p v-if="request.report">{{ request.report }}</p> -->

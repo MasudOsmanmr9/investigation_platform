@@ -2,12 +2,12 @@
   <div class="dashboard">
     <!-- <Navbar /> -->
     <div class="container">
-      <h1>Dashboard</h1>
+      <!-- <h1>Dashboard</h1>
       {{ `Active Role: ${currentActiveRole}` }}
       <div class="role-switch">
         <button @click="switchUserRole('requester')" v-if="isBothRoles">Switch to Requester</button>
         <button @click="switchUserRole('investigator')" v-if="isBothRoles">Switch to Investigator</button>
-      </div>
+      </div> -->
       <div v-if="currentActiveRole === 'requester'">
         <h2>Your Requests</h2>
         <MyRequestList />
