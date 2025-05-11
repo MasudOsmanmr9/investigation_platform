@@ -15,6 +15,7 @@ import SubmitReport from '../pages/Investigator/SubmitReport.vue';
 import UserProfile from '../pages/UserProfile.vue';
 import NotFound from '../pages/NotFound.vue';
 import InvestigatorProfile from '../pages/InvestigatorProfile.vue';
+import ChatRoom from '../pages/ChatRoom.vue';
 const routes = [
   {
     path: '/',
@@ -40,7 +41,7 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: UserProfile,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, role: 'both' } // Assuming both roles can access this
   },
   {
     path: '/requester/create',
@@ -93,6 +94,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/user/chat-to/:id',
+    name: 'chatRoom',
+    component: ChatRoom,
+    meta: { requiresAuth: true, role: 'both' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound,
@@ -112,6 +119,11 @@ router.beforeEach((to, from, next) => {
   const roleRequired = to.meta.role;
 console.log('User role:', userRole,roleRequired);
   console.log('to :::', to);
+
+  if(store.state.isAuthenticated && roleRequired === 'both') {
+    next();
+  }
+
   if((to.name === 'SignIn' || to.name === 'SignUp') && store.state.isAuthenticated) {
     next({ name: 'Dashboard' });
   }

@@ -1,9 +1,12 @@
 <template>
     <div class="request-detail">
       <div v-if="request">
-        <div v-if="request.requesterId" class="requester d-flex flex-column align-items-start">
-          <h4><strong>Requester:</strong> {{ request.requesterId.name }}</h4>
-          <h5><strong>contact details:</strong> {{ request.requesterId.contactDetails }}</h5>
+        <div v-if="request.requesterId" class="requester d-flex ">
+            <div class="requester-detail d-flex flex-column align-items-start">
+              <h4><strong>Requester:</strong> {{ request.requesterId.name }}</h4>
+              <h5><strong>contact details:</strong> {{ request.requesterId.contactDetails }}</h5>
+            </div>
+            <div class="px-2" v-if="isInvestigator"><router-link class="btn btn-primary btn-sm px-4" :to="{ name: 'chatRoom', params: { id: request.requesterId._id } }">chat</router-link></div>
         </div>
         <div class="d-flex flex-column align-items-start mt-2">
           <p><strong>Area:</strong>{{ request.area }}</p>
@@ -15,9 +18,12 @@
         <div class="mt-4" v-if="isRequester">
           <div v-if="request.assignedInvestigatorId">
             <h4>Investigator</h4>
-            <div  class="requester d-flex flex-column align-items-start">
-              <h4><strong>Investigator:</strong> <router-link :to="{ name: 'InvestigatorUserProfile', params: { id: request.assignedInvestigatorId._id } }">{{ request.assignedInvestigatorId.name }}</router-link></h4>
-              <h5><strong>contact details:</strong> {{ request.assignedInvestigatorId.contactDetails }}</h5>
+            <div v-if="request.requesterId" class="requester d-flex ">
+              <div  class="requester d-flex flex-column align-items-start">
+                <h4><strong>Investigator:</strong> <router-link :to="{ name: 'InvestigatorUserProfile', params: { id: request.assignedInvestigatorId._id } }">{{ request.assignedInvestigatorId.name }}</router-link></h4>
+                <h5><strong>contact details:</strong> {{ request.assignedInvestigatorId.contactDetails }}</h5>
+              </div>
+              <div class="px-2" v-if="isRequester"><router-link class="btn btn-primary btn-sm px-4" :to="{ name: 'chatRoom', params: { id: request.assignedInvestigatorId._id } }">chat</router-link></div>
             </div>
           <!-- <p v-if="request.report">{{ request.report }}</p> -->
           <!-- <button v-if="request.reportFile" @click="downloadReport">Download Report</button> -->
