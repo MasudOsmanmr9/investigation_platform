@@ -1,10 +1,14 @@
 <template>
   <nav v-if="isAuthenticated" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Investigation Platform</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav">
         <li class="nav-item">
           <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
@@ -24,7 +28,7 @@
             <button class="btn btn-link nav-link" @click="switchRole">Switch Role</button>
           </div> -->
           <p class="active-roll my-0 mx-2"><strong>Active Role: {{ user.activeRole }}</strong></p>
-          <div class="form-check form-switch">
+          <div class="form-check form-switch d-flex flex-column">
             <input class="form-check-input" @change="switchUserRole" type="checkbox" id="flexSwitchCheckChecked" checked>
             <label class="form-check-label" for="flexSwitchCheckChecked">{{ user.activeRole == 'requester' ? 'Switch to Investigator' : 'Switch to Requester' }}</label>
           </div>
