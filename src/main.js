@@ -15,3 +15,5 @@ app.use(store); // Register the store
 app.mount('#app');
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/js/bootstrap.js';
+
+export default app;

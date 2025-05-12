@@ -1,6 +1,11 @@
 import axios from 'axios';
 import store from '../store'; // Adjust the path to your Vuex store
+ // Adjust the path to your main.js file
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
+const $toast = useToast();
+ // Adjust the path to your toast library
 const apiClient = axios.create({
     // baseURL: process.env.VUE_APP_API_URL,
     baseURL: 'http://localhost:3000/api', // Set your API base URL here
@@ -45,6 +50,10 @@ apiClient.interceptors.response.use(
                     
                     // Dispatch the Vuex logout action
                     store.dispatch('logout');
+                    let instance = $toast.error('Token expired. Logging out...', {
+                        duration: 5000,
+                        // all of other options may go here
+                    });
                     console.log('dispatcheddddddddddddd')
                     // Redirect to the sign-in page
                     window.location.href = '/signin'; // Adjust the path if necessary
