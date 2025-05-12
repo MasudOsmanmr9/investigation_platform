@@ -102,7 +102,8 @@ export default createStore({
     },
     async createRequest({ commit }, request) {
       let createdRequest = await createRequest(request)
-      commit('ADD_REQUEST', createdRequest.data);
+      console.log('Created request:', createdRequest.data);
+      //commit('ADD_REQUEST', createdRequest.data);
     },
     updateRequest({ commit }, updatedRequest) {
       commit('UPDATE_REQUEST', updatedRequest);
