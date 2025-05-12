@@ -40,7 +40,7 @@ apiClient.interceptors.response.use(
             console.log('Error response:', error.response);
             // Handle 401 Unauthorized
             if (status === 401) {
-                if (data.message === 'Unauthorized. Invalid token.') {
+                if (data.errors && data.errors[0] && data.errors[0].message === 'Unauthorized. Invalid token.') {
                     console.error('Token expired. Logging out...');
                     
                     // Dispatch the Vuex logout action
