@@ -52,6 +52,9 @@ export default {
         const response = await this.fetchSingleRequest(this.requestId);
         this.request = response.request;
       } catch (error) {
+        this.$toast.error(error, {
+          duration: 3000,
+        });
         console.error('Error fetching request detail:', error);
       }
     },
@@ -60,6 +63,9 @@ export default {
       try {
         await downloadReport(this.request._id); // Pass the request ID to downloadReport
       } catch (error) {
+        this.$toast.error(error, {
+          duration: 3000,
+        });
         console.error('Error downloading report:', error);
       }
     },

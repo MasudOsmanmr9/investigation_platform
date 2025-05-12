@@ -13,7 +13,7 @@ import {
   investigatorAcceptRequest
 } from '@/utils/api';
 import createPersistedState from "vuex-persistedstate";
-
+import { processError } from '@/utils/errorParser';
 export default createStore({
   state: {
     // user: {
@@ -66,11 +66,13 @@ export default createStore({
       try {
         let { page, limit, status} = payload;
         const response = await fetchMyRequests({ status, page, limit });
+        console.log('Fetched requests:', response.data);
         commit('SET_REQUESTS', response.data);
         return response.data; // Return the data for the component
       } catch (error) {
+        const errorMessage = processError(error);
         console.error('Error fetching requests:', error);
-        throw error;
+        throw errorMessage;
       }
     },
     async browseRequests({ commit }, payload = { page : 1, limit : 2}) {
@@ -80,8 +82,9 @@ export default createStore({
         commit('SET_REQUESTS', response.data);
         return response.data; // Return the data for the component
       } catch (error) {
+        const errorMessage = processError(error);
         console.error('Error fetching requests:', error);
-        throw error;
+        throw errorMessage;
       }
     },
 
@@ -92,8 +95,9 @@ export default createStore({
         commit('SET_REQUESTS', response.data);
         return response.data; // Return the data for the component
       } catch (error) {
+        const errorMessage = processError(error);
         console.error('Error fetching requests:', error);
-        throw error;
+        throw errorMessage;
       }
     },
     async createRequest({ commit }, request) {
@@ -108,8 +112,9 @@ export default createStore({
         const response = await fetchRequestDetails(requestId);
         return response.data;
       } catch (error) {
+        const errorMessage = processError(error);
         console.error('Error fetching request:', error);
-        throw error;
+        throw errorMessage;
       }
     },
 
@@ -118,8 +123,9 @@ export default createStore({
         const response = await investigatorAcceptRequest(requestId);
         return response.data;
       } catch (error) {
+        const errorMessage = processError(error);
         console.error('Error accepting request:', error);
-        throw error;
+        throw errorMessage;
       }
     },
     async switchRole({ commit }, role) {
@@ -130,19 +136,21 @@ export default createStore({
           commit('SET_USER', user);
           commit('SET_TOKEN', token);
           commit('SET_ACTIVE_ROLE', user.activeRole);
-        //here i want o call fetchRequests od 63 line
-         await this.dispatch('fetchRequests', { page: 1, limit: 2, status: 'pending' });
+
+         //await this.dispatch('fetchRequests', { page: 1, limit: 2, status: 'pending' });
       }
       return Promise.resolve();
       }
       catch (error) {
+        const errorMessage = processError(error);
         console.error('Error switching role:', error);
-        throw error;
+        throw errorMessage;
       }
     },
     async registerUser({ commit }, payload) {
       try {
         // const response = await axios.post('/api/register', payload);
+        console.log('store Registering user:', payload);
         const response = await signUpApi(payload);
         if(response.data){
             let {user, token} = response.data;;
@@ -150,10 +158,14 @@ export default createStore({
             commit('SET_TOKEN', token);
             commit('SET_ACTIVE_ROLE', user.activeRole);
         }
+        console.log('store Register response:', response.data);
+        return Promise.resolve(response.data);
         // commit('SET_USER', response.data);
       } catch (error) {
-        console.error('Error registering user:', error);
-        throw error;
+        console.log('store Register error:', error);
+        const errorMessage = processError(error);
+        console.error('Error registering user:', errorMessage);
+        throw errorMessage;
       }
     },
     async signIn({ commit }, payload) {
@@ -167,8 +179,9 @@ export default createStore({
         }
         return Promise.resolve();
       } catch (error) {
-        console.error('SignIn Error:', error);
-        return Promise.reject(error.response?.data?.message || 'Sign-in failed');
+        const errorMessage = processError(error);
+        console.error('SignIn Error:', errorMessage);
+        return Promise.reject(errorMessage || 'Sign-in failed');
       }
     },
 
@@ -191,8 +204,9 @@ export default createStore({
       
       }
       catch (error) {
+        errorMessage = processError(error);
         console.error('Error updating profile:', error);
-        throw error;
+        throw errorMessage;
       }
     },
   },

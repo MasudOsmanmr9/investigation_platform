@@ -23,7 +23,7 @@
         <input type="password" v-model="password" class="form-control" id="password" required>
       </div>
       <button type="submit" class="btn btn-primary mt-4">Sign In</button>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <!-- <p v-if="errorMessage" class="error">{{ errorMessage }}</p> -->
     </form>
     <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
   </div>
@@ -48,7 +48,11 @@ export default {
         await this.signIn({ email: this.email, password: this.password });
         this.$router.push('/dashboard');
       } catch (error) {
-        this.errorMessage = 'Invalid email or password.';
+        this.errorMessage = error;
+        this.$toast.error(error,{
+          duration: 3000,
+          // all of other options may go here
+      });
       }
     }
   }

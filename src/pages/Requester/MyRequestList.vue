@@ -11,7 +11,11 @@
       </select>
     </div>
     <RequestList :requests="getRequests" @viewRequest="viewRequest"  />
-    <Pagination :currentPage="getRequests.currentPage" :totalPages="getRequests.totalPages" />
+    <Pagination 
+      :currentPage="getRequests.currentPage" 
+      :totalPages="getRequests.totalPages"
+      @pageChanged="pageChange"
+      />
   </div>
 </template>
 
@@ -50,6 +54,10 @@ export default {
         this.totalPages = response.totalPages;
       } catch (error) {
         console.error('Error fetching requests:', error);
+        this.$toast.error(error,{
+          duration: 3000,
+          // all of other options may go here
+      });
       }
     },
     async statusChange(status) {
@@ -66,7 +74,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchRequests();
+    this.fetchMyRequests();
   },
 };
 </script>

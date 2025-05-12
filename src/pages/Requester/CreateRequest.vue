@@ -44,6 +44,9 @@ export default {
         this.message = 'Request submitted successfully!';
         this.request.area = '';
         this.request.description = '';
+        this.$toast.success(this.message, {
+          duration: 3000,
+        });
         this.$router.push('/requester/my-requests');
       } catch (error) {
         console.log('Error submitting request:', error);

@@ -54,10 +54,19 @@ export default {
     ...mapActions(['registerUser']),
     async handleSignUp() {
       try {
-        await this.registerUser({ email: this.email, password: this.password, role: this.role });
+        console.log('this.registerUser acccess',this.registerUser)
+        let response = await this.registerUser({ email: this.email, password: this.password, role: this.role });
+        console.log('this.registerUser acccess 2',response)
+        this.$toast.success(response.message, {
+          duration: 3000,
+        });
         this.$router.push('/dashboard');
       } catch (error) {
-        console.error('Registration failed:', error);
+        this.$toast.error(error,{
+          duration: 3000,
+          // all of other options may go here
+      });
+        console.error('Registration failed:', JSON.stringify(error));
       }
     }
   }

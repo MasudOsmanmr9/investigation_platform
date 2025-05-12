@@ -14,6 +14,9 @@
           <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
         </li>
         <li class="nav-item" v-if="isRequester">
+          <router-link class="nav-link" to="/requester/create">create Requests</router-link>
+        </li>
+        <li class="nav-item" v-if="isRequester">
           <router-link class="nav-link" to="/requester/my-requests">My Requests</router-link>
         </li>
         <li class="nav-item" v-if="isInvestigator">
@@ -62,10 +65,22 @@ export default {
     //   this.$store.dispatch('switchRole');
     // },
     async switchUserRole(role) {
-
-      let propsedrole = this.activeRole === 'requester' ? 'investigator' : 'requester';
-      await this.switchRole(propsedrole);
-      this.$router.push('/dashboard');
+      try {
+        console.log('Role switched acccesssssing:')      
+        let propsedrole = this.activeRole === 'requester' ? 'investigator' : 'requester';
+        console.log('Role switched 0:', propsedrole);
+        await this.switchRole(propsedrole);
+        console.log('Role switched 1:', propsedrole);
+        this.$router.push('/dashboard');
+        console.log('Role switched successfully:', propsedrole);
+      } catch (error) {
+        console.log('Error switching roleeeeeeeeeeeeee:', error);
+        this.$toast.error(error,{
+            duration: 3000,
+            // all of other options may go here
+        });
+        console.error('Error switching role:', error);
+      }
     },
     logout() {
       this.$store.dispatch('logout');

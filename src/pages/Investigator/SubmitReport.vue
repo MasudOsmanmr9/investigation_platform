@@ -54,6 +54,9 @@ export default {
         //   },
         // });
         await uploadFileApi(formData,this.requestId);
+        this.$toast.success('Report submitted successfully!', {
+          duration: 3000,
+        });
         this.$router.push({ name: 'Dashboard' });
       } catch (error) {
         console.error('Error submitting report:', error);

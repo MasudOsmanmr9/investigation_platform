@@ -179,6 +179,10 @@ export default {
         this.reviews = response.data.dashboardData?.reviews;
         this.userRole = this.user.role; // Assuming role is stored in Vuex
       } catch (error) {
+        this.$toast.error(error,{
+          duration: 3000,
+          // all of other options may go here
+      });
         console.error('Error fetching dashboard data:', error);
       }
     }

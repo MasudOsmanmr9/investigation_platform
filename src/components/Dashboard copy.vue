@@ -49,11 +49,11 @@ export default {
   },
   methods: {
     ...mapActions(['switchRole']),
-    async switchUserRole(role) {
-      // this.$store.commit('setActiveRole', role);
+    // async switchUserRole(role) {
+    //   // this.$store.commit('setActiveRole', role);
       
-      await this.switchRole(role);
-    },
+    //   await this.switchRole(role);
+    // },
   },
 };
 </script>
