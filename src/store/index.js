@@ -12,6 +12,7 @@ import {
   investigatorMyRequests,
   investigatorAcceptRequest
 } from '@/utils/api';
+import router from '@/router';
 import createPersistedState from "vuex-persistedstate";
 import { processError } from '@/utils/errorParser';
 export default createStore({
@@ -192,6 +193,7 @@ export default createStore({
       commit('SET_ACTIVE_ROLE', null);
       commit('SET_REQUESTS', null);
       localStorage.removeItem('token');
+      router.push('/signin'); // Redirect to sign-in page
     },
 
     async updateProfile({ commit }, profileData) {

@@ -56,7 +56,7 @@ apiClient.interceptors.response.use(
                     });
                     console.log('dispatcheddddddddddddd')
                     // Redirect to the sign-in page
-                    window.location.href = '/signin'; // Adjust the path if necessary
+                    //window.location.href = '/signin'; // Adjust the path if necessary
                 } else if (data.message === 'Unauthorized. No token provided.') {
                     console.error('No token provided. Redirecting to sign-in...');
                     
