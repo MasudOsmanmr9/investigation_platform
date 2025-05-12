@@ -37,7 +37,7 @@ apiClient.interceptors.response.use(
         // Check if the error response status is 401 (Unauthorized)
         if (error.response) {
             const { status, data } = error.response;
-
+            console.log('Error response:', error.response);
             // Handle 401 Unauthorized
             if (status === 401) {
                 if (data.message === 'Unauthorized. Invalid token.') {
@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
                     
                     // Dispatch the Vuex logout action
                     store.dispatch('logout');
-
+                    console.log('dispatcheddddddddddddd')
                     // Redirect to the sign-in page
                     window.location.href = '/signin'; // Adjust the path if necessary
                 } else if (data.message === 'Unauthorized. No token provided.') {
