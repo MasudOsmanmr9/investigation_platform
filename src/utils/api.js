@@ -1,5 +1,6 @@
 import axios from 'axios';
-import store from '../store'; // Adjust the path to your Vuex store
+import store from '../store';
+import router from '@/router'; // Adjust the path to your Vuex store
  // Adjust the path to your main.js file
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -57,9 +58,13 @@ apiClient.interceptors.response.use(
                     console.log('dispatcheddddddddddddd')
                     // Redirect to the sign-in page
                     //window.location.href = '/signin'; // Adjust the path if necessary
-                } else if (data.message === 'Unauthorized. No token provided.') {
+                } else if (data.errors && data.errors[0] && data.errors[0].message === 'Unauthorized. No token provided.') {
                     console.error('No token provided. Redirecting to sign-in...');
-                    
+                    store.dispatch('logout');
+                    let instance = $toast.error(data.message, {
+                        duration: 5000,
+                        // all of other options may go here
+                    });
                     // Redirect to the sign-in page
                     window.location.href = '/signin'; // Adjust the path if necessary
                 }
@@ -70,7 +75,8 @@ apiClient.interceptors.response.use(
                 console.error('Forbidden:', data.message);
                 
                 // Redirect to the dashboard or show an error message
-                window.location.href = '/dashboard'; // Adjust the path if necessary
+                //window.location.href = '/dashboard'; 
+                router.push('/signin'); // // Adjust the path if necessary
             }
         }
         // Reject the promise with the error object

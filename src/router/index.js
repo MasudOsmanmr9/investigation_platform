@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store';
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 // Importing pages
 import SignIn from '../pages/Auth/SignIn.vue';
 import SignUp from '../pages/Auth/SignUp.vue';
@@ -16,6 +17,9 @@ import UserProfile from '../pages/UserProfile.vue';
 import NotFound from '../pages/NotFound.vue';
 import InvestigatorProfile from '../pages/InvestigatorProfile.vue';
 import ChatRoom from '../pages/ChatRoom.vue';
+
+const $toast = useToast();
+
 const routes = [
   {
     path: '/',
@@ -121,13 +125,29 @@ router.beforeEach((to, from, next) => {
   if(store.state.isAuthenticated && roleRequired === 'both') {
     next();
   }
+  if(
+    ((from.name === 'SignIn' && to.name === 'SignUp')    // if loclal storage token is null or deleted then 
+    || (from.name === 'SignUp' && to.name === 'SignIn')) // user can go to sign up or sign in page
+    && (!store.state.token || localStorage.getItem('token') === null)) {
+    //$toast.error('Signupd.');
+    //store.dispatch('logout')
+    next();
+  }
+  else if((to.name !== 'SignIn' ) 
+    && (!store.state.token || localStorage.getItem('token') === null)) { // if token is null or deleted then
+                                                                        // and if user tries to go to any other page or refresh 
+    $toast.error('Session expired. Please log in again.');              // user will be redirected to sign in page
+    store.dispatch('logout')
+    //next({ name: 'SignIn' });
+  }
 
   if((to.name === 'SignIn' || to.name === 'SignUp') && store.state.isAuthenticated) {
-    next({ name: 'Dashboard' });
+    next({ name: 'Dashboard' }); // Redirect to dashboard if already authenticated
   }
   if (requiresAuth && !store.state.isAuthenticated) {
     next({ name: 'SignIn' });
-  } else if (roleRequired && userActivRole !== roleRequired) {
+  } else if (roleRequired && userActivRole !== roleRequired && roleRequired !== 'both'){
+    $toast.error('you are not authorized user for this page');
     next({ name: 'Dashboard' }); // Redirect to dashboard if role doesn't match
   } else {
     next();

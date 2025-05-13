@@ -27,6 +27,7 @@
 <script>
 import { io } from 'socket.io-client';
 import { mapState } from 'vuex';
+import { getUserProfileApi } from '@/utils/api'; // Adjust the import path as necessary
 
 export default {
   data() {
@@ -36,7 +37,8 @@ export default {
       socket: null,
       messages: [],
       newMessage: '',
-      roomId: null, // Store the generated room ID
+      roomId: null, 
+      messageWithUser:null// Store the generated room ID
     };
   },
   computed: {
@@ -84,8 +86,10 @@ export default {
       });
     },
   },
-  created() {
+  async created() {
     this.userId = this.user._id; // Assuming you have a user object in your Vuex store
+    let response = await getUserProfileApi(this.recipientId);
+    cosnole.log('recipient',response);
   },
   mounted() {
     this.roomId = [this.userId, this.recipientId].sort().join('-');
