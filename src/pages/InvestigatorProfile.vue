@@ -53,6 +53,9 @@
                 @pageChanged="fetchReviews"
             />
         </div>
+        <div v-else>
+            <p>No reviews available.</p>
+        </div>
     </div>
   </template>
   
@@ -77,7 +80,7 @@
       };
     },
     computed: {
-      ...mapState(['user']),
+      ...mapState(['user','activeRole']),
     },
     methods: {
     async fetchInvestigatorInfo() {
@@ -107,9 +110,9 @@
                 comment: this.comment,
             };
             await createReviewApi(payload); // Call the API to create a review
-            alert('Review submitted successfully!');
-            this.rating = null; // Reset the rating input
-            this.comment = ''; // Reset the comment input
+            this.$toast.success('Review submitted successfully!'); // Show success message
+            this.rating = null; 
+            this.comment = ''; 
             this.fetchReviews(); // Refresh the reviews list
             } catch (error) {
             console.error('Error submitting review:', error);
