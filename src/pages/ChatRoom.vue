@@ -89,7 +89,7 @@ export default {
   async created() {
     this.userId = this.user._id; // Assuming you have a user object in your Vuex store
     let response = await getUserProfileApi(this.recipientId);
-    cosnole.log('recipient',response);
+    console.log('recipient',response);
   },
   mounted() {
     this.roomId = [this.userId, this.recipientId].sort().join('-');
